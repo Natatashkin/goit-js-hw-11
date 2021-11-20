@@ -1,8 +1,5 @@
 import './css/styles.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-// import axios from 'axios';
-// import SimpleLightbox from 'simplelightbox';
-// import 'simplelightbox/dist/simple-lightbox.min.css';
 import ImagesAPIService from './js/ImagesAPIServise';
 import LoadMoreBtn from './js/loadMoreBtn';
 import Markup from './js/renderMarkup';
@@ -14,7 +11,7 @@ const refs = {
 
 const imagesAPIService = new ImagesAPIService();
 const loadMoreBtn = new LoadMoreBtn({ selector: '.load-more' });
-let renderMarkup = null;
+const renderMarkup = new Markup({ selector: refs.gallery });
 
 refs.form.addEventListener('submit', onFormSubmit);
 loadMoreBtn.button.addEventListener('click', onloadMoreBtnClick);
@@ -22,9 +19,7 @@ loadMoreBtn.button.addEventListener('click', onloadMoreBtnClick);
 // Submit handler
 async function onFormSubmit(e) {
   e.preventDefault();
-
-  refs.gallery.innerHTML = '';
-
+  renderMarkup.reset();
   imagesAPIService.query = e.currentTarget.searchQuery.value.trim();
 
   if (imagesAPIService.query === '') {
@@ -32,6 +27,7 @@ async function onFormSubmit(e) {
     Notify.info('Your query is empty. Try again!');
     return;
   }
+
   imagesAPIService.resetPage();
 
   try {
@@ -45,18 +41,18 @@ async function onFormSubmit(e) {
   refs.form.reset();
 }
 
-// Load More Button handler
+// Load-More Button handler
 async function onloadMoreBtnClick() {
   await initFetchImages();
   pageScroll();
   renderMarkup.lightbox.refresh();
 }
 
-// send request
+// Send request
 async function initFetchImages() {
   loadMoreBtn.disable();
   const images = await imagesAPIService.fetchImages();
-  renderMarkup = new Markup({ selector: refs.gallery, items: images });
+  renderMarkup.items = images;
   renderMarkup.render();
 
   if (imagesAPIService.endOfHits) {

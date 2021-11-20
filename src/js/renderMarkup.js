@@ -2,8 +2,8 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 export default class Markup {
-  constructor({ selector, items }) {
-    this.items = items;
+  constructor({ selector }) {
+    this.items = null;
     this.selector = selector;
     this.lightbox = null;
   }
@@ -45,5 +45,9 @@ export default class Markup {
 
   initModal(selector) {
     this.lightbox = new SimpleLightbox(selector);
+  }
+
+  reset() {
+    this.selector.innerHTML = '';
   }
 }

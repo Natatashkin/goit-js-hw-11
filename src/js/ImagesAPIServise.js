@@ -21,6 +21,19 @@ export default class ImagesAPIService {
   set query(newQuery) {
     this.searchQuery = newQuery;
   }
+
+  getOptions() {
+    const options = new URLSearchParams({
+      key: `${API_KEY}`,
+      q: `${this.searchQuery}`,
+      page: `${this.page}`,
+      per_page: `${this.PER_PAGE}`,
+      image_type: 'photo',
+      orientation: 'horizontal',
+      safesearch: true,
+    });
+    return options;
+  }
   incrementPage() {
     this.page += 1;
   }
@@ -34,15 +47,7 @@ export default class ImagesAPIService {
   }
 
   async fetchImages() {
-    const options = new URLSearchParams({
-      key: `${API_KEY}`,
-      q: `${this.searchQuery}`,
-      page: `${this.page}`,
-      per_page: `${this.PER_PAGE}`,
-      image_type: 'photo',
-      orientation: 'horizontal',
-      safesearch: true,
-    });
+    const options = this.getOptions();
 
     const response = await axios.get(`?${options}`);
     const data = await response.data;
