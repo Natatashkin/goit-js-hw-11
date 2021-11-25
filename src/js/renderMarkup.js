@@ -32,7 +32,7 @@ export default class Markup {
           <p class="info-item">
             <b>Downloads</b>
             ${downloads}
-          </p>r
+          </p>
         </div>
       </div>
       </a>`;
