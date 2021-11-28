@@ -3,6 +3,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import ImagesAPIService from './js/ImagesAPIServise';
 import LoadMoreBtn from './js/loadMoreBtn';
 import Markup from './js/renderMarkup';
+import Preloader from './js/preloader';
 
 const refs = {
   form: document.querySelector('#search-form'),
@@ -12,6 +13,7 @@ const refs = {
 const imagesAPIService = new ImagesAPIService();
 const loadMoreBtn = new LoadMoreBtn({ selector: '.load-more' });
 const renderMarkup = new Markup({ selector: refs.gallery });
+const preloader = new Preloader({ selector: '.preloader' });
 
 refs.form.addEventListener('submit', onFormSubmit);
 loadMoreBtn.button.addEventListener('click', onloadMoreBtnClick);
@@ -20,6 +22,7 @@ loadMoreBtn.button.addEventListener('click', onloadMoreBtnClick);
 async function onFormSubmit(e) {
   e.preventDefault();
   renderMarkup.reset();
+  loadMoreBtn.hideBtn();
   imagesAPIService.query = e.currentTarget.searchQuery.value.trim();
 
   if (imagesAPIService.query === '') {
@@ -31,9 +34,9 @@ async function onFormSubmit(e) {
   imagesAPIService.resetPage();
 
   try {
-    loadMoreBtn.showBtn();
     await initFetchImages();
   } catch (error) {
+    preloader.hide();
     loadMoreBtn.hideBtn();
     Notify.failure(error.message);
   }
@@ -43,6 +46,7 @@ async function onFormSubmit(e) {
 
 // Load-More Button handler
 async function onloadMoreBtnClick() {
+  loadMoreBtn.hideBtn();
   await initFetchImages();
   pageScroll();
   renderMarkup.lightbox.refresh();
@@ -50,16 +54,18 @@ async function onloadMoreBtnClick() {
 
 // Send request
 async function initFetchImages() {
-  loadMoreBtn.disable();
+  preloader.show();
   const images = await imagesAPIService.fetchImages();
   renderMarkup.items = images;
+  preloader.hide();
   renderMarkup.render();
 
   if (imagesAPIService.endOfHits) {
+    preloader.hide();
     loadMoreBtn.hideBtn();
     return;
   }
-  loadMoreBtn.enable();
+  loadMoreBtn.showBtn();
 }
 
 // Scroll page

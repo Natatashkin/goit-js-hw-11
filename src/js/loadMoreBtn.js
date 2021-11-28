@@ -1,7 +1,7 @@
 export default class LoadMoreBtn {
   constructor({ selector }) {
     this.button = document.querySelector(selector);
-    this.label = this.button.textContent;
+    // this.label = this.button.textContent;
   }
 
   showBtn() {
@@ -12,13 +12,13 @@ export default class LoadMoreBtn {
     this.button.classList.add('is-hidden');
   }
 
-  enable() {
-    this.button.disabled = false;
-    this.button.textContent = 'Load more';
-  }
+  // enable() {
+  //   this.button.disabled = false;
+  //   this.button.textContent = 'Load more';
+  // }
 
-  disable() {
-    this.button.disabled = true;
-    this.button.textContent = 'Loading...';
-  }
+  // disable() {
+  //   this.button.disabled = true;
+  //   this.button.textContent = 'Loading...';
+  // }
 }
