@@ -1,5 +1,7 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import '@fortawesome/fontawesome-free/js/all';
+// import '@fortawesome/fontawesome-free/css/all.css';
 
 export default class Markup {
   constructor({ selector }) {
@@ -18,19 +20,19 @@ export default class Markup {
       </div>
         <div class="info">
           <p class="info-item">
-            <b>Likes</b>
+            <b><i class="fas fa-heart"></i></b>
             ${likes}
           </p>
           <p class="info-item">
-            <b>Views</b>
+            <b><i class="fas fa-eye"></i></b>
             ${views}
           </p>
           <p class="info-item">
-            <b>Comments</b>
+            <b><i class="fas fa-comment-dots"></i></b>
             ${comments}
           </p>
           <p class="info-item">
-            <b>Downloads</b>
+            <b><i class="fas fa-download"></i></b>
             ${downloads}
           </p>
         </div>

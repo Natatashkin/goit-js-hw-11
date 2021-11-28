@@ -93,6 +93,11 @@ body {
   margin: 0;
 }
 
+svg[data-prefix='fas'] {
+  font-size: 20px;
+  color: #5c5b5b;
+}
+
 .load-more {
   display: block;
   padding: 10px 20px;
